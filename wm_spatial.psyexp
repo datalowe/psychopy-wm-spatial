@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" ?>
+<PsychoPy2experiment encoding="utf-8" version="2020.2.5">
+  <Settings>
+    <Param name="Audio latency priority" updates="None" val="use prefs" valType="str"/>
+    <Param name="Audio lib" updates="None" val="use prefs" valType="str"/>
+    <Param name="Completed URL" updates="None" val="" valType="str"/>
+    <Param name="Data file delimiter" updates="None" val="auto" valType="str"/>
+    <Param name="Data filename" updates="None" val="u'data/%s_%s_%s' % (expInfo['participant'], expName, expInfo['date'])" valType="code"/>
+    <Param name="Enable Escape" updates="None" val="True" valType="bool"/>
+    <Param name="Experiment info" updates="None" val="{'participant': '', 'session': '001'}" valType="code"/>
+    <Param name="Force stereo" updates="None" val="True" valType="bool"/>
+    <Param name="Full-screen window" updates="None" val="True" valType="bool"/>
+    <Param name="HTML path" updates="None" val="" valType="str"/>
+    <Param name="Incomplete URL" updates="None" val="" valType="str"/>
+    <Param name="Monitor" updates="None" val="macMonitor" valType="str"/>
+    <Param name="Resources" updates="None" val="[]" valType="fileList"/>
+    <Param name="Save csv file" updates="None" val="False" valType="bool"/>
+    <Param name="Save excel file" updates="None" val="False" valType="bool"/>
+    <Param name="Save log file" updates="None" val="True" valType="bool"/>
+    <Param name="Save psydat file" updates="None" val="True" valType="bool"/>
+    <Param name="Save wide csv file" updates="None" val="True" valType="bool"/>
+    <Param name="Screen" updates="None" val="1" valType="num"/>
+    <Param name="Show info dlg" updates="None" val="True" valType="bool"/>
+    <Param name="Show mouse" updates="None" val="False" valType="bool"/>
+    <Param name="Units" updates="None" val="height" valType="str"/>
+    <Param name="Use version" updates="None" val="" valType="str"/>
+    <Param name="Window size (pixels)" updates="None" val="[1280, 800]" valType="code"/>
+    <Param name="blendMode" updates="None" val="avg" valType="str"/>
+    <Param name="color" updates="None" val="$[0,0,0]" valType="str"/>
+    <Param name="colorSpace" updates="None" val="rgb" valType="str"/>
+    <Param name="expName" updates="None" val="click_baseline" valType="str"/>
+    <Param name="exportHTML" updates="None" val="on Sync" valType="str"/>
+    <Param name="logging level" updates="None" val="debug" valType="code"/>
+  </Settings>
+  <Routines>
+    <Routine name="trial">
+      <CodeComponent name="code_trial">
+        <Param name="Before Experiment" updates="constant" val="# in order to subclass the Rect class (see 'Begin Experiment') &amp;#10;# it must be directly imported, see&amp;#10;# https://github.com/psychopy/psychopy/issues/1159&amp;#10;from psychopy.visual.rect import Rect&amp;#10;&amp;#10;# import random.choices for sampling with replacement &amp;#10;# in 'Begin Experiment' -&gt; gen_light_order&amp;#10;from random import choices" valType="extendedCode"/>
+        <Param name="Before JS Experiment" updates="constant" val="import {Rect} from 'psychopy/visual/rect';&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="class LightRect(Rect):&amp;#10;    &quot;&quot;&quot;&amp;#10;    Represents a rectangle that can light up and be clicked.&amp;#10;    &amp;#10;    Attributes&amp;#10;    ----------&amp;#10;    is_lit : boolean&amp;#10;        Should be True if the rectangle is lighting up, &amp;#10;        otherwise should be False.&amp;#10;    light_flip_countdown: int&amp;#10;        Represents the number of window flips left before&amp;#10;        the rectangle should stop being lit up.&amp;#10;    rest_color: string&amp;#10;        A hex color code that describes what color the rectangle&amp;#10;        should have when in its resting (non-lit-up) state.&amp;#10;    lit_color: string&amp;#10;        A hex color code that describes what color the rectangle&amp;#10;        should have when in its lit-up state.&amp;#10;    Methods&amp;#10;    ----------&amp;#10;    switch_on: See docstring&amp;#10;    switch_off: See docstring&amp;#10;    &quot;&quot;&quot;&amp;#10;    is_lit = False&amp;#10;    light_flip_countdown = 0&amp;#10;    lit_color = TARGET_LIGHT_COL&amp;#10;    rest_color = TARGET_NEUTRAL_COL&amp;#10;    &amp;#10;    &amp;#10;    def switch_on(self, duration):&amp;#10;        &quot;&quot;&quot;&amp;#10;        Checks if this rectangle is already in a lit up state.&amp;#10;        If not, sets the rectangle to be in lit state for 'duration' flips, &amp;#10;        changes this rectangle's color and sets `is_lit` to True. Returns&amp;#10;        True if switched on, otherwise False.&amp;#10;        &quot;&quot;&quot;&amp;#10;        switched_on = False&amp;#10;        if not self.is_lit:&amp;#10;            self.light_flip_countdown = duration&amp;#10;            self.is_lit = True&amp;#10;            self.fillColor = self.lit_color&amp;#10;            self.lineColor = self.lit_color&amp;#10;            switched_on = True&amp;#10;        return switched_on&amp;#10;    &amp;#10;    def switch_off(self):&amp;#10;        &quot;&quot;&quot;&amp;#10;        Checks if this rectangle is in a lit up state, and if so,&amp;#10;        decrements the flip countdown counter. If the counter&amp;#10;        is then &lt;=0, reverts this rectangle's color back to neutral&amp;#10;        and resets `is_lit`. Returns True if switched off, otherwise&amp;#10;        False.&amp;#10;        &quot;&quot;&quot;&amp;#10;        switched_off = False&amp;#10;        if self.is_lit:&amp;#10;            self.light_flip_countdown -= 1&amp;#10;            if self.light_flip_countdown &lt;= 0:&amp;#10;                self.fillColor = self.rest_color&amp;#10;                self.lineColor = self.rest_color&amp;#10;                self.is_lit = False&amp;#10;                switched_off = True&amp;#10;        return switched_off&amp;#10;    &amp;#10;    def print_lit(self):&amp;#10;        print(self.is_lit)&amp;#10;&amp;#10;class Point:&amp;#10;    &quot;&quot;&quot;&amp;#10;    Represents (x, y) coordinates in 2-dimensional space.&amp;#10;    &quot;&quot;&quot;&amp;#10;    def __init__(self, x, y):&amp;#10;        self.x = x&amp;#10;        self.y = y&amp;#10;    &amp;#10;    def __sub__(self, other):&amp;#10;        &quot;&quot;&quot;&amp;#10;        Returns the euclidean distance between this and the&amp;#10;        other passed point.&amp;#10;        &quot;&quot;&quot;&amp;#10;        dist = ((self.x - other.x)**2 + (self.y - other.y)**2)**(1/2)&amp;#10;        return dist&amp;#10;    &amp;#10;    def __str__(self):&amp;#10;        &quot;&quot;&quot;&amp;#10;        Returns a string representation '(x, y)' of this point.&amp;#10;        &quot;&quot;&quot;&amp;#10;        return &quot;({}, {})&quot;.format(self.x, self.y)&amp;#10;    &amp;#10;    def __repr__(self):&amp;#10;        &quot;&quot;&quot;&amp;#10;        Returns a description of how this point can be&amp;#10;        recreated.&amp;#10;        &quot;&quot;&quot;&amp;#10;        return &quot;Point({}, {})&quot;.format(self.x, self.y)&amp;#10;    &amp;#10;    def as_tuple(self):&amp;#10;        &quot;&quot;&quot;&amp;#10;        Returns a (x, y) tuple with this point's x/y coordinates.&amp;#10;        &quot;&quot;&quot;&amp;#10;        return self.x, self.y&amp;#10;&amp;#10;def points_collide(point_ls, new_point):&amp;#10;    &quot;&quot;&quot;&amp;#10;    Goes through a list of Point instances and compares&amp;#10;    the new_point to see if the new_point is too close&amp;#10;    to one of the points in the point_ls. Returns True if&amp;#10;    there is a collision, otherwise False.&amp;#10;    &quot;&quot;&quot;&amp;#10;    collides = False&amp;#10;    for old_point in point_ls:&amp;#10;        if (new_point - old_point) &lt; TARGET_SIZE_DEG * 2:&amp;#10;            collides = True&amp;#10;            break&amp;#10;    return collides&amp;#10;&amp;#10;def gen_rand_point():&amp;#10;    &quot;&quot;&quot;&amp;#10;    Generates a random point within the target area.&amp;#10;    &quot;&quot;&quot;&amp;#10;    x_coord = randint(-AREA_WIDTH_DEG//2, AREA_WIDTH_DEG//2)&amp;#10;    y_coord = randint(-AREA_HEIGHT_DEG//2, AREA_HEIGHT_DEG//2)&amp;#10;    return Point(x_coord, y_coord)&amp;#10;&amp;#10;def gen_point_ls():&amp;#10;    &quot;&quot;&quot;&amp;#10;    Generates a list of (x, y) coordinate Point instances until&amp;#10;    there are as many instances as there should be targets/trial.&amp;#10;    &quot;&quot;&quot;&amp;#10;    point_ls = []&amp;#10;    while len(point_ls) &lt; NUM_TARGETS:&amp;#10;        new_point = gen_rand_point()&amp;#10;        if not points_collide(point_ls, new_point):&amp;#10;            point_ls.append(new_point)&amp;#10;    return point_ls&amp;#10;&amp;#10;def gen_light_order(seq_len, num_targets):&amp;#10;    &quot;&quot;&quot;&amp;#10;    Generates a random order in which targets should&amp;#10;    be lit up, with length based on the passed sequence&amp;#10;    length, and numbers based on&amp;#10;    the number of targets.&amp;#10;    &quot;&quot;&quot;&amp;#10;    num_population = [x for x in range(num_targets)]&amp;#10;    order_ls = choices(num_population, k=seq_len)&amp;#10;    return order_ls&amp;#10;&amp;#10;def gen_trial_orders(&amp;#10;    num_targets, &amp;#10;    min_seq_len,&amp;#10;    max_seq_len, &amp;#10;    num_trials):&amp;#10;    &quot;&quot;&quot;&amp;#10;    Generates a list of lists, where each inner lists holds&amp;#10;    a random order in which targets should be lit up, based&amp;#10;    on:&amp;#10;        num_targets - number of targets in each screen&amp;#10;        min_seq_len - minimum sequence length&amp;#10;        max_seq_len - maximum sequence length&amp;#10;        num_trials - number of trials per difficulty level&amp;#10;    &quot;&quot;&quot;&amp;#10;    trial_orders = []&amp;#10;    for seq_len in range(min_seq_len, max_seq_len+1):&amp;#10;        for trial in range(num_trials):&amp;#10;            order_ls = gen_light_order(seq_len, num_targets)&amp;#10;            trial_orders.append(order_ls)&amp;#10;    return trial_orders&amp;#10;&amp;#10;# generate (x, y) coordinates for the targets&amp;#10;point_ls = gen_point_ls()&amp;#10;&amp;#10;# generate order of targets lighting up for each&amp;#10;# trial&amp;#10;trial_orders = gen_trial_orders(&amp;#10;    NUM_TARGETS, &amp;#10;    START_DIFFICULTY,&amp;#10;    END_DIFFICULTY,&amp;#10;    NUM_TRIALS&amp;#10;)&amp;#10;&amp;#10;# generate one TextStim instance for each target&amp;#10;# (numbering starting from 0)&amp;#10;targets = []&amp;#10;for i in range(NUM_TARGETS):&amp;#10;    new_target = LightRect(&amp;#10;        win=win, &amp;#10;        name='target_{}'.format(i),&amp;#10;        units='deg', &amp;#10;        ori=0,&amp;#10;        pos=point_ls[i].as_tuple(), &amp;#10;        width=TARGET_SIZE_DEG,&amp;#10;        height=TARGET_SIZE_DEG,&amp;#10;        fillColor=TARGET_NEUTRAL_COL, &amp;#10;        lineColor=TARGET_NEUTRAL_COL, &amp;#10;        lineWidth=1,&amp;#10;        lineColorSpace='rgb', &amp;#10;        fillColorSpace='rgb',&amp;#10;        opacity=1,&amp;#10;        depth=-2.0,&amp;#10;        interpolate=True)&amp;#10;    targets.append(new_target)&amp;#10;&amp;#10;# initialize trial counter&amp;#10;trial_counter = 0&amp;#10;&amp;#10;# initialize fail counter, which keeps track of&amp;#10;# number of fails in a row&amp;#10;fail_streak_counter = 0" valType="extendedCode"/>
+        <Param name="Begin JS Experiment" updates="constant" val="/* Syntax Error: Fix Python code */" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="light_order = trial_orders[trial_counter];&amp;#10;light_targets = function () {&amp;#10;    var _pj_a = [], _pj_b = light_order;&amp;#10;    for (var _pj_c = 0, _pj_d = _pj_b.length; (_pj_c &lt; _pj_d); _pj_c += 1) {&amp;#10;        var index = _pj_b[_pj_c];&amp;#10;        _pj_a.push(targets[index]);&amp;#10;    }&amp;#10;    return _pj_a;&amp;#10;}&amp;#10;.call(this);&amp;#10;seq_len = light_targets.length;&amp;#10;light_counter = 0;&amp;#10;light_target = light_targets[light_counter];&amp;#10;light_target.switch_on(60);&amp;#10;response_phase = false;&amp;#10;click_counter = 0;&amp;#10;response_times = [];&amp;#10;click_order = [];&amp;#10;trial_start_time = globalClock.getTime();&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="# fetch order in which targets should light up at beginning&amp;#10;# of this trial&amp;#10;light_order = trial_orders[trial_counter]&amp;#10;&amp;#10;# form list of targets, arranged in order in which they should&amp;#10;# light up&amp;#10;light_targets = [targets[index] for index in light_order]&amp;#10;&amp;#10;# store the sequence length&amp;#10;seq_len = len(light_targets)&amp;#10;&amp;#10;# reset counter used for looping over order in which&amp;#10;# targets should light up&amp;#10;light_counter = 0&amp;#10;&amp;#10;# reset countdown timer for counting down time inbetween&amp;#10;# targets lighting up during demonstration phase&amp;#10;inter_light_countdown = 0&amp;#10;&amp;#10;# reset countdown timer for counting down time inbetween&amp;#10;# demonstration/response phase&amp;#10;phase_switch_countdown = 0&amp;#10;&amp;#10;# set the initial target that should light up and switch&amp;#10;# it on (make it light up)&amp;#10;light_target = light_targets[light_counter]&amp;#10;light_target.switch_on(DEMO_LIGHT_DUR)&amp;#10;&amp;#10;# reset booleans indicating whether which phase of&amp;#10;# the trial that is currently running&amp;#10;demo_phase = True&amp;#10;response_phase = False&amp;#10;&amp;#10;# reset counter for registering number of clicks on targets&amp;#10;click_counter = 0&amp;#10;&amp;#10;# reset list of times when valid (on target) click responses &amp;#10;# occur&amp;#10;response_times = []&amp;#10;&amp;#10;# reset list of order in which the participant makes clicks&amp;#10;click_order = []&amp;#10;&amp;#10;# fetch the routine start time&amp;#10;trial_start_time = globalClock.getTime()&amp;#10;" valType="extendedCode"/>
+        <Param name="Code Type" updates="None" val="Py" valType="str"/>
+        <Param name="Each Frame" updates="constant" val="# if in the demonstration phase&amp;#10;if demo_phase:&amp;#10;    # decrement the countdown timer which keeps track of&amp;#10;    # number of flips until active target should light up&amp;#10;    inter_light_countdown -= 1&amp;#10;    # attempt to turn off the active target&amp;#10;    switched_off = light_target.switch_off()&amp;#10;    # if the active target was successfully switched off&amp;#10;    if switched_off:&amp;#10;        print('switched off')&amp;#10;        print(light_target.name)&amp;#10;        light_counter += 1&amp;#10;        print(light_counter)&amp;#10;        # if there are more targets to light up&amp;#10;        if light_counter &lt; seq_len:&amp;#10;            # proceed to the next target to light up and start the&amp;#10;            # countdown timer for when the target should light up&amp;#10;            inter_light_countdown = DEMO_INTER_DUR&amp;#10;            light_target = light_targets[light_counter]&amp;#10;    # if it's time to switch on the active target&amp;#10;    if inter_light_countdown &lt;= 0:&amp;#10;        light_target.switch_on(DEMO_LIGHT_DUR)&amp;#10;        inter_light_countdown = 9999&amp;#10;    # if the whole sequence is done&amp;#10;    if light_counter &gt;= seq_len and not light_target.is_lit:&amp;#10;        demo_phase = False&amp;#10;        # add one to the inter phase countdown duration&amp;#10;        # to avoid this very flip decrementing the countdown&amp;#10;        phase_switch_countdown = INTER_PHASE_DUR + 1&amp;#10;&amp;#10;# if the lighting phase is finished and response phase&amp;#10;# isn't started yet, start the response phase&amp;#10;if not demo_phase and not response_phase:&amp;#10;    phase_switch_countdown -= 1&amp;#10;    if phase_switch_countdown &lt;= 0:&amp;#10;        for target in targets:&amp;#10;            target.rest_color = TARGET_AWAIT_COL&amp;#10;            target.fillColor = TARGET_AWAIT_COL&amp;#10;            target.lineColor = TARGET_AWAIT_COL&amp;#10;        response_phase = True&amp;#10;        rphase_start_time = trialClock.getTime()&amp;#10;&amp;#10;# if in the response phase&amp;#10;if response_phase:&amp;#10;    # try to switch off each of the targets (so that&amp;#10;    # clicked targets are switched off properly)&amp;#10;    for target in targets:&amp;#10;        target.switch_off()&amp;#10;&amp;#10;# check if mouse button has been clicked&amp;#10;buttons = mouse_trial.getPressed()&amp;#10;if buttons != prevButtonState:  # button state changed?&amp;#10;    prevButtonState = buttons&amp;#10;    # if currently in response phase and a new click was made &amp;#10;    if response_phase and sum(buttons) &gt; 0:  &amp;#10;        # loop over the targets&amp;#10;        for target in targets:&amp;#10;            # if mouse was inside of target&amp;#10;            if target.contains(mouse_trial):&amp;#10;                # switch on the target, increase counter, register&amp;#10;                # which target the participant clicked&amp;#10;                target.switch_on(RESP_FLASH_DUR)&amp;#10;                click_counter += 1&amp;#10;                click_order.append(targets.index(target))&amp;#10;                # save the click time&amp;#10;                response_time = trialClock.getTime() - rphase_start_time&amp;#10;                response_times.append(response_time)&amp;#10;&amp;#10;# if all responses have been collected, end the trial&amp;#10;if click_counter &gt;= seq_len:&amp;#10;    continueRoutine = False&amp;#10;&amp;#10;# draw all of the targets&amp;#10;for target in targets:&amp;#10;    target.draw()&amp;#10;" valType="extendedCode"/>
+        <Param name="Each JS Frame" updates="constant" val="/* Syntax Error: Fix Python code */" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Routine" updates="constant" val="trial_counter += 1;&amp;#10;" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="# check if participant's response was correct&amp;#10;response_correct = light_order == click_order&amp;#10;&amp;#10;# if response was correct, reset fail counter.&amp;#10;# otherwise, increment it&amp;#10;if response_correct:&amp;#10;    fail_streak_counter = 0&amp;#10;else:&amp;#10;    fail_streak_counter += 1&amp;#10;# save trial data&amp;#10;trials.addData('response_times', response_times)&amp;#10;trials.addData('trial_start_time', trial_start_time)&amp;#10;trials.addData('correct_order', light_order)&amp;#10;trials.addData('click_order', click_order)&amp;#10;trials.addData('response_correct', response_correct)&amp;#10;&amp;#10;# increment trial counter&amp;#10;trial_counter += 1&amp;#10;&amp;#10;# if this was the last trial of a certain difficulty level&amp;#10;level_end = (trial_counter % NUM_TRIALS) == 0&amp;#10;if level_end:&amp;#10;    # if the participant failed all of the level's&amp;#10;    # trials, jump to end screen.&amp;#10;    failed_all = fail_streak_counter == NUM_TRIALS&amp;#10;    if failed_all:&amp;#10;        trials.finished = True&amp;#10;    # reset the fail counter in preparation for next level&amp;#10;    fail_streak_counter = 0&amp;#10;" valType="extendedCode"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="name" updates="None" val="code_trial" valType="code"/>
+      </CodeComponent>
+      <MouseComponent name="mouse_trial">
+        <Param name="clickable" updates="constant" val="" valType="code"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="forceEndRoutineOnPress" updates="constant" val="never" valType="str"/>
+        <Param name="name" updates="None" val="mouse_trial" valType="code"/>
+        <Param name="newClicksOnly" updates="constant" val="True" valType="bool"/>
+        <Param name="saveMouseState" updates="None" val="never" valType="str"/>
+        <Param name="saveParamsClickable" updates="constant" val="" valType="code"/>
+        <Param name="saveStartStop" updates="None" val="False" valType="bool"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="" valType="code"/>
+        <Param name="syncScreenRefresh" updates="None" val="False" valType="bool"/>
+        <Param name="timeRelativeTo" updates="constant" val="mouse onset" valType="str"/>
+      </MouseComponent>
+    </Routine>
+    <Routine name="instructions">
+      <TextComponent name="text_instructions">
+        <Param name="color" updates="constant" val="white" valType="str"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="flip" updates="constant" val="" valType="str"/>
+        <Param name="font" updates="constant" val="Arial" valType="str"/>
+        <Param name="languageStyle" updates="None" val="LTR" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="TXT_SIZE_M" valType="code"/>
+        <Param name="name" updates="None" val="text_instructions" valType="code"/>
+        <Param name="opacity" updates="constant" val="1" valType="code"/>
+        <Param name="ori" updates="constant" val="0" valType="code"/>
+        <Param name="pos" updates="constant" val="(0, 0)" valType="code"/>
+        <Param name="saveStartStop" updates="None" val="False" valType="bool"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="" valType="code"/>
+        <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
+        <Param name="text" updates="constant" val="$INSTRUCTIONS_TXT" valType="extendedStr"/>
+        <Param name="units" updates="None" val="deg" valType="str"/>
+        <Param name="wrapWidth" updates="constant" val="25" valType="code"/>
+      </TextComponent>
+      <MouseComponent name="mouse_instructions">
+        <Param name="clickable" updates="constant" val="text_go" valType="code"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="forceEndRoutineOnPress" updates="constant" val="valid click" valType="str"/>
+        <Param name="name" updates="None" val="mouse_instructions" valType="code"/>
+        <Param name="newClicksOnly" updates="constant" val="True" valType="bool"/>
+        <Param name="saveMouseState" updates="None" val="never" valType="str"/>
+        <Param name="saveParamsClickable" updates="constant" val="name," valType="code"/>
+        <Param name="saveStartStop" updates="None" val="False" valType="bool"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.5" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="" valType="code"/>
+        <Param name="syncScreenRefresh" updates="None" val="False" valType="bool"/>
+        <Param name="timeRelativeTo" updates="constant" val="mouse onset" valType="str"/>
+      </MouseComponent>
+      <TextComponent name="text_go">
+        <Param name="color" updates="constant" val="white" valType="str"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="flip" updates="constant" val="" valType="str"/>
+        <Param name="font" updates="constant" val="Arial" valType="str"/>
+        <Param name="languageStyle" updates="None" val="LTR" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="TXT_SIZE_S" valType="code"/>
+        <Param name="name" updates="None" val="text_go" valType="code"/>
+        <Param name="opacity" updates="constant" val="1" valType="code"/>
+        <Param name="ori" updates="constant" val="0" valType="code"/>
+        <Param name="pos" updates="constant" val="(0, -6)" valType="code"/>
+        <Param name="saveStartStop" updates="None" val="False" valType="bool"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="" valType="code"/>
+        <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
+        <Param name="text" updates="constant" val="$INSTRUCTIONS_CONTINUE_TXT" valType="extendedStr"/>
+        <Param name="units" updates="None" val="deg" valType="str"/>
+        <Param name="wrapWidth" updates="constant" val="25" valType="code"/>
+      </TextComponent>
+      <CodeComponent name="code_constants">
+        <Param name="Before Experiment" updates="constant" val="### SET EXPERIMENT CONSTANTS ###&amp;#10;# width/height of area where targets&amp;#10;# can appear, in degrees&amp;#10;AREA_WIDTH_DEG = 22&amp;#10;AREA_HEIGHT_DEG = 13&amp;#10;&amp;#10;# target size, in degrees&amp;#10;TARGET_SIZE_DEG = 2.5&amp;#10;&amp;#10;# target neutral (not lit up and not awaiting response) color&amp;#10;TARGET_NEUTRAL_COL = &quot;#AAAAAA&quot;&amp;#10;# target light up (or click) color&amp;#10;TARGET_LIGHT_COL = &quot;#FFFF00&quot;&amp;#10;# target awaiting participant response color&amp;#10;TARGET_AWAIT_COL = &quot;#FFFFFF&quot;&amp;#10;&amp;#10;# target text clicked color&amp;#10;TARGET_CLICKED_COL = &quot;#BBFFBB&quot;&amp;#10;&amp;#10;# number of trials to run per difficulty level&amp;#10;NUM_TRIALS = 3&amp;#10;&amp;#10;# number of potential targets to show in each trial&amp;#10;NUM_TARGETS = 9&amp;#10;&amp;#10;# starting difficulty level, ie number of targets&amp;#10;# lighting up in the first trial&amp;#10;START_DIFFICULTY = 2&amp;#10;# highest difficulty level, ie number of squares&amp;#10;# lighting up in the last trial (if the participant&amp;#10;# doesn't fail X number of times in a row before then)&amp;#10;END_DIFFICULTY = 9&amp;#10;&amp;#10;# duration for which targets should light up while&amp;#10;# demonstrating the sequence to the participant.&amp;#10;# durations are specified in window flips (one flip&amp;#10;# corresponds to 1/60s for most screens)&amp;#10;DEMO_LIGHT_DUR = 60&amp;#10;# duration to wait inbetween lighting up targets&amp;#10;# during demonstration phase&amp;#10;DEMO_INTER_DUR = 30&amp;#10;# duration for which targets should flash when clicked&amp;#10;RESP_FLASH_DUR = 3&amp;#10;# duration of pause between demonstration/response&amp;#10;# phase&amp;#10;INTER_PHASE_DUR = 30&amp;#10;&amp;#10;# large/medium/small instructions text size,&amp;#10;# in degrees&amp;#10;TXT_SIZE_L = 2&amp;#10;TXT_SIZE_M = 0.8&amp;#10;TXT_SIZE_S = 0.6&amp;#10;&amp;#10;# experiment instructions&amp;#10;# &quot;In this test you will be shown squares. The squares will&amp;#10;# light up in a particular order. You are to memorize the&amp;#10;# order in which the squares light up. Once the squares&amp;#10;# have finished lighting up, you are to click the squares&amp;#10;# in the same order.\n\n&amp;#10;# Use the left mouse button to click the squares.&quot;&amp;#10;INSTRUCTIONS_TXT = (&amp;#10;    &quot;I det här testet kommer du att visas rutor. &quot; &amp;#10;    &quot;Rutorna kommer att lysa upp i en viss ordning.&quot;&amp;#10;    &quot;Du ska memorisera i vilken ordning som &quot;&amp;#10;    &quot;rutorna lyser upp. När rutorna lyst klart ska du klicka &quot;&amp;#10;    &quot;på rutorna i samma ordning.\n\n&quot;&amp;#10;    &quot;Använd vänster musknapp för att klicka på rutorna.&quot;&amp;#10;)&amp;#10;&amp;#10;# instructions screen 'continue' message&amp;#10;# &quot;Click here to see an example&quot;&amp;#10;INSTRUCTIONS_CONTINUE_TXT = (&amp;#10;    &quot;Tryck här för att se ett exempel&quot;&amp;#10;)&amp;#10;&amp;#10;#    &quot;Testet tar ca 3 minuter att genomföra.&quot;&amp;#10;&amp;#10;### END SET EXPERIMENT CONSTANTS ###" valType="extendedCode"/>
+        <Param name="Before JS Experiment" updates="constant" val="AREA_WIDTH_DEG = 22;&amp;#10;AREA_HEIGHT_DEG = 13;&amp;#10;TARGET_SIZE_DEG = 2.5;&amp;#10;TARGET_NEUTRAL_COL = &quot;#AAAAAA&quot;;&amp;#10;TARGET_LIGHT_COL = &quot;#FFFF00&quot;;&amp;#10;TARGET_AWAIT_COL = &quot;#FFFFFF&quot;;&amp;#10;TARGET_CLICKED_COL = &quot;#BBFFBB&quot;;&amp;#10;NUM_TRIALS = 3;&amp;#10;NUM_TARGETS = 9;&amp;#10;START_DIFFICULTY = 2;&amp;#10;END_DIFFICULTY = 9;&amp;#10;DEMO_LIGHT_DUR = 60;&amp;#10;RESP_FLASH_DUR = 3;&amp;#10;TXT_SIZE_L = 2;&amp;#10;TXT_SIZE_M = 0.8;&amp;#10;TXT_SIZE_S = 0.6;&amp;#10;INSTRUCTIONS_TXT = &quot;I det h\u00e4r testet kommer du att visas rutor. Rutorna kommer att lysa upp i en viss ordning.Du ska memorisera i vilken ordning som rutorna lyser upp. N\u00e4r rutorna lyst klart ska du klicka p\u00e5 rutorna i samma ordning.\n\nAnv\u00e4nd v\u00e4nster musknapp f\u00f6r att klicka p\u00e5 rutorna.&quot;;&amp;#10;INSTRUCTIONS_CONTINUE_TXT = &quot;Tryck h\u00e4r f\u00f6r att se ett exempel&quot;;&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Code Type" updates="None" val="Py" valType="str"/>
+        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="name" updates="None" val="code_constants" valType="code"/>
+      </CodeComponent>
+    </Routine>
+    <Routine name="end_routine">
+      <TextComponent name="text_end">
+        <Param name="color" updates="constant" val="white" valType="str"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="flip" updates="constant" val="" valType="str"/>
+        <Param name="font" updates="constant" val="Arial" valType="str"/>
+        <Param name="languageStyle" updates="None" val="LTR" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="TXT_SIZE_L" valType="code"/>
+        <Param name="name" updates="None" val="text_end" valType="code"/>
+        <Param name="opacity" updates="constant" val="1" valType="code"/>
+        <Param name="ori" updates="constant" val="0" valType="code"/>
+        <Param name="pos" updates="constant" val="(0, 0)" valType="code"/>
+        <Param name="saveStartStop" updates="None" val="False" valType="bool"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="5" valType="code"/>
+        <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
+        <Param name="text" updates="constant" val="Nu är du klar. Tack!" valType="extendedStr"/>
+        <Param name="units" updates="None" val="deg" valType="str"/>
+        <Param name="wrapWidth" updates="constant" val="25" valType="code"/>
+      </TextComponent>
+    </Routine>
+    <Routine name="inter_trial_2000ms">
+      <TextComponent name="text_iti_timekeeper">
+        <Param name="color" updates="constant" val="white" valType="str"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="flip" updates="constant" val="" valType="str"/>
+        <Param name="font" updates="constant" val="Arial" valType="str"/>
+        <Param name="languageStyle" updates="None" val="LTR" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="0.1" valType="code"/>
+        <Param name="name" updates="None" val="text_iti_timekeeper" valType="code"/>
+        <Param name="opacity" updates="constant" val="1" valType="code"/>
+        <Param name="ori" updates="constant" val="0" valType="code"/>
+        <Param name="pos" updates="constant" val="(0, 0)" valType="code"/>
+        <Param name="saveStartStop" updates="None" val="True" valType="bool"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="stopVal" updates="constant" val="2" valType="code"/>
+        <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
+        <Param name="text" updates="constant" val="" valType="extendedStr"/>
+        <Param name="units" updates="None" val="from exp settings" valType="str"/>
+        <Param name="wrapWidth" updates="constant" val="" valType="code"/>
+      </TextComponent>
+      <CodeComponent name="code">
+        <Param name="Before Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="for (var target, _pj_c = 0, _pj_a = targets, _pj_b = _pj_a.length; (_pj_c &lt; _pj_b); _pj_c += 1) {&amp;#10;    target = _pj_a[_pj_c];&amp;#10;    target.rest_color = TARGET_NEUTRAL_COL;&amp;#10;    target.fillColor = TARGET_NEUTRAL_COL;&amp;#10;    target.lineColor = TARGET_NEUTRAL_COL;&amp;#10;}&amp;#10;" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="# reset targets&amp;#10;for target in targets:&amp;#10;    target.rest_color = TARGET_NEUTRAL_COL&amp;#10;    target.fillColor = TARGET_NEUTRAL_COL&amp;#10;    target.lineColor = TARGET_NEUTRAL_COL&amp;#10;" valType="extendedCode"/>
+        <Param name="Code Type" updates="None" val="Auto-&gt;JS" valType="str"/>
+        <Param name="Each Frame" updates="constant" val="# draw all of the targets&amp;#10;for target in targets:&amp;#10;    target.draw()" valType="extendedCode"/>
+        <Param name="Each JS Frame" updates="constant" val="for (var target, _pj_c = 0, _pj_a = targets, _pj_b = _pj_a.length; (_pj_c &lt; _pj_b); _pj_c += 1) {&amp;#10;    target = _pj_a[_pj_c];&amp;#10;    target.draw();&amp;#10;}&amp;#10;" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End JS Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="disabled" updates="None" val="False" valType="bool"/>
+        <Param name="name" updates="None" val="code" valType="code"/>
+      </CodeComponent>
+    </Routine>
+  </Routines>
+  <Flow>
+    <Routine name="instructions"/>
+    <LoopInitiator loopType="TrialHandler" name="trials">
+      <Param name="Selected rows" updates="None" val="" valType="str"/>
+      <Param name="conditions" updates="None" val="None" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="" valType="str"/>
+      <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
+      <Param name="isTrials" updates="None" val="True" valType="bool"/>
+      <Param name="loopType" updates="None" val="random" valType="str"/>
+      <Param name="nReps" updates="None" val="NUM_TRIALS * (END_DIFFICULTY - START_DIFFICULTY + 1)" valType="code"/>
+      <Param name="name" updates="None" val="trials" valType="code"/>
+      <Param name="random seed" updates="None" val="" valType="code"/>
+    </LoopInitiator>
+    <Routine name="inter_trial_2000ms"/>
+    <Routine name="trial"/>
+    <LoopTerminator name="trials"/>
+    <Routine name="end_routine"/>
+  </Flow>
+</PsychoPy2experiment>
