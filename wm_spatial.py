@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2020.2.5),
-    on Wed Nov 11 15:09:47 2020
+    on Thu Nov 12 13:38:01 2020
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -29,6 +29,19 @@ import sys  # to get file system encoding
 from psychopy.hardware import keyboard
 
 ### SET EXPERIMENT CONSTANTS ###
+# should numbers, starting from 1 and randomly arranged
+# for each trial, be put on top of the targets?
+USE_NUMBERS = True
+# 'on-top' numbers color
+NUMBER_COL = "#000000"
+
+# duration of each trial's 'pre phase', before demonstration 
+# starts,in which targets are simply shown in grey 
+# (with numbers on top of them, if using numbers)
+# durations are specified in screen flips (one flip
+# corresponds to 1/60s on most screens)
+PRE_PHASE_DURATION = 120
+
 # width/height of area where targets
 # can appear, in degrees
 AREA_WIDTH_DEG = 22
@@ -36,6 +49,17 @@ AREA_HEIGHT_DEG = 13
 
 # target size, in degrees
 TARGET_SIZE_DEG = 2.5
+
+# minimum distance between targets.
+# this is the distance between targets' CENTRES,
+# meaning a distance of 0 would indicate that two
+# targets perfectly overlap.
+# PLEASE NOTE that if you set this minimum distance
+# to a value that's too high, PsychoPy will become stuck
+# in an infinite loop. so please think carefully about
+# how much space is available (area width/height) for 
+# distanced targets to fit
+MIN_TARGET_DISTANCE = TARGET_SIZE_DEG * 2.2
 
 # target neutral (not lit up and not awaiting response) color
 TARGET_NEUTRAL_COL = "#AAAAAA"
@@ -61,16 +85,17 @@ START_DIFFICULTY = 2
 # doesn't fail X number of times in a row before then)
 END_DIFFICULTY = 9
 
-# duration for which targets should light up while
+# duration (in flips) for which targets should light up while
 # demonstrating the sequence to the participant.
-# durations are specified in window flips (one flip
-# corresponds to 1/60s for most screens)
 DEMO_LIGHT_DUR = 60
 # duration to wait inbetween lighting up targets
 # during demonstration phase
 DEMO_INTER_DUR = 30
 # duration for which targets should flash when clicked
 RESP_FLASH_DUR = 3
+# duration of pause between demonstration/response
+# phase
+INTER_PHASE_DUR = 30
 
 # large/medium/small instructions text size,
 # in degrees
@@ -112,6 +137,19 @@ from psychopy.visual.rect import Rect
 # in 'Begin Experiment' -> gen_light_order
 from random import choices
 
+# define variables representing trial phases
+# pre-demonstration phase (only presenting targets in grey)
+PRE_PHASE = 'pre'
+# demonstration phase (showing the participant the correct
+# sequence)
+DEMO_PHASE = 'demo'
+# demonstration to response phase (pause inbetween)
+DEMO_TO_RESP_PHASE = 'demo_to_response'
+# participant response phase
+RESPONSE_PHASE = 'response'
+# end phase (allowing the last clicked target to finish flashing)
+END_PHASE = 'end'
+
 
 # Ensure that relative paths start from the same directory as this script
 _thisDir = os.path.dirname(os.path.abspath(__file__))
@@ -150,7 +188,7 @@ frameTolerance = 0.001  # how close to onset before 'same' frame
 win = visual.Window(
     size=[1280, 800], fullscr=True, screen=0, 
     winType='pyglet', allowGUI=False, allowStencil=False,
-    monitor='macMonitor', color=[0,0,0], colorSpace='rgb',
+    monitor='testMonitor', color=[-1,-1,-1], colorSpace='rgb',
     blendMode='avg', useFBO=True, 
     units='height')
 # store frame rate of monitor if we can measure it
@@ -182,16 +220,6 @@ text_go = visual.TextStim(win=win, name='text_go',
     color='white', colorSpace='rgb', opacity=1, 
     languageStyle='LTR',
     depth=-2.0);
-
-# Initialize components for Routine "inter_trial_5000ms"
-inter_trial_5000msClock = core.Clock()
-text_iti_timekeeper = visual.TextStim(win=win, name='text_iti_timekeeper',
-    text=None,
-    font='Arial',
-    pos=(0, 0), height=0.1, wrapWidth=None, ori=0, 
-    color='white', colorSpace='rgb', opacity=1, 
-    languageStyle='LTR',
-    depth=0.0);
 
 # Initialize components for Routine "trial"
 trialClock = core.Clock()
@@ -251,12 +279,15 @@ class LightRect(Rect):
         switched_off = False
         if self.is_lit:
             self.light_flip_countdown -= 1
-        if self.light_flip_countdown <= 0:
-            self.fillColor = self.rest_color
-            self.lineColor = self.rest_color
-            self.is_lit = False
-            switched_off = True
+            if self.light_flip_countdown <= 0:
+                self.fillColor = self.rest_color
+                self.lineColor = self.rest_color
+                self.is_lit = False
+                switched_off = True
         return switched_off
+    
+    def print_lit(self):
+        print(self.is_lit)
 
 class Point:
     """
@@ -302,7 +333,7 @@ def points_collide(point_ls, new_point):
     """
     collides = False
     for old_point in point_ls:
-        if (new_point - old_point) < TARGET_SIZE_DEG * 2:
+        if (new_point - old_point) < MIN_TARGET_DISTANCE:
             collides = True
             break
     return collides
@@ -320,11 +351,20 @@ def gen_point_ls():
     Generates a list of (x, y) coordinate Point instances until
     there are as many instances as there should be targets/trial.
     """
-    point_ls = []
-    while len(point_ls) < NUM_TARGETS:
-        new_point = gen_rand_point()
-        if not points_collide(point_ls, new_point):
-            point_ls.append(new_point)
+    finished_list = False
+    while not finished_list:
+            collision_counter = 0
+            point_ls = []
+            while len(point_ls) < NUM_TARGETS:
+                new_point = gen_rand_point()
+                if points_collide(point_ls, new_point):
+                    collision_counter += 1
+                else:
+                    point_ls.append(new_point)
+                if collision_counter > 200:
+                    break
+            if len(point_ls) == NUM_TARGETS:
+                finished_list = True
     return point_ls
 
 def gen_light_order(seq_len, num_targets):
@@ -371,7 +411,7 @@ trial_orders = gen_trial_orders(
     NUM_TRIALS
 )
 
-# generate one TextStim instance for each target
+# generate one LightRect instance for each target
 # (numbering starting from 0)
 targets = []
 for i in range(NUM_TARGETS):
@@ -393,8 +433,34 @@ for i in range(NUM_TARGETS):
         interpolate=True)
     targets.append(new_target)
 
+# if numbers should be put on top of targets
+if USE_NUMBERS:
+    # generate one TextStim instance for each target,
+    # for numbers that will be put on top of the targets
+    target_numbers = []
+    for i in range(NUM_TARGETS):
+        new_target_number = visual.TextStim(
+            win=win, 
+            name='target_number_{}'.format(i),
+            text='placeholder',
+            font='Arial',
+            units='deg', 
+            pos=point_ls[i].as_tuple(), 
+            height=TARGET_SIZE_DEG*0.7, 
+            wrapWidth=None, ori=0, 
+            color=NUMBER_COL, 
+            colorSpace='rgb', 
+            opacity=1, 
+            languageStyle='LTR',
+            depth=1.0)
+        target_numbers.append(new_target_number)
+
 # initialize trial counter
 trial_counter = 0
+
+# initialize fail counter, which keeps track of
+# number of fails in a row
+fail_streak_counter = 0
 mouse_trial = event.Mouse(win=win)
 x, y = [None, None]
 mouse_trial.mouseClock = core.Clock()
@@ -529,87 +595,17 @@ for thisTrial in trials:
         for paramName in thisTrial:
             exec('{} = thisTrial[paramName]'.format(paramName))
     
-    # ------Prepare to start Routine "inter_trial_5000ms"-------
-    continueRoutine = True
-    routineTimer.add(3.000000)
-    # update component parameters for each repeat
-    # reset targets
-    for target in targets:
-        target.rest_color = TARGET_NEUTRAL_COL
-        target.fillColor = TARGET_NEUTRAL_COL
-        target.lineColor = TARGET_NEUTRAL_COL
-    
-    # keep track of which components have finished
-    inter_trial_5000msComponents = [text_iti_timekeeper]
-    for thisComponent in inter_trial_5000msComponents:
-        thisComponent.tStart = None
-        thisComponent.tStop = None
-        thisComponent.tStartRefresh = None
-        thisComponent.tStopRefresh = None
-        if hasattr(thisComponent, 'status'):
-            thisComponent.status = NOT_STARTED
-    # reset timers
-    t = 0
-    _timeToFirstFrame = win.getFutureFlipTime(clock="now")
-    inter_trial_5000msClock.reset(-_timeToFirstFrame)  # t0 is time of first possible flip
-    frameN = -1
-    
-    # -------Run Routine "inter_trial_5000ms"-------
-    while continueRoutine and routineTimer.getTime() > 0:
-        # get current time
-        t = inter_trial_5000msClock.getTime()
-        tThisFlip = win.getFutureFlipTime(clock=inter_trial_5000msClock)
-        tThisFlipGlobal = win.getFutureFlipTime(clock=None)
-        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
-        # update/draw components on each frame
-        
-        # *text_iti_timekeeper* updates
-        if text_iti_timekeeper.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
-            # keep track of start time/frame for later
-            text_iti_timekeeper.frameNStart = frameN  # exact frame index
-            text_iti_timekeeper.tStart = t  # local t and not account for scr refresh
-            text_iti_timekeeper.tStartRefresh = tThisFlipGlobal  # on global time
-            win.timeOnFlip(text_iti_timekeeper, 'tStartRefresh')  # time at next scr refresh
-            text_iti_timekeeper.setAutoDraw(True)
-        if text_iti_timekeeper.status == STARTED:
-            # is it time to stop? (based on global clock, using actual start)
-            if tThisFlipGlobal > text_iti_timekeeper.tStartRefresh + 3-frameTolerance:
-                # keep track of stop time/frame for later
-                text_iti_timekeeper.tStop = t  # not accounting for scr refresh
-                text_iti_timekeeper.frameNStop = frameN  # exact frame index
-                win.timeOnFlip(text_iti_timekeeper, 'tStopRefresh')  # time at next scr refresh
-                text_iti_timekeeper.setAutoDraw(False)
-        # draw all of the targets
-        for target in targets:
-            target.draw()
-        
-        # check for quit (typically the Esc key)
-        if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
-            core.quit()
-        
-        # check if all components have finished
-        if not continueRoutine:  # a component has requested a forced-end of Routine
-            break
-        continueRoutine = False  # will revert to True if at least one component still running
-        for thisComponent in inter_trial_5000msComponents:
-            if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
-                continueRoutine = True
-                break  # at least one component has not yet finished
-        
-        # refresh the screen
-        if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
-            win.flip()
-    
-    # -------Ending Routine "inter_trial_5000ms"-------
-    for thisComponent in inter_trial_5000msComponents:
-        if hasattr(thisComponent, "setAutoDraw"):
-            thisComponent.setAutoDraw(False)
-    trials.addData('text_iti_timekeeper.started', text_iti_timekeeper.tStartRefresh)
-    trials.addData('text_iti_timekeeper.stopped', text_iti_timekeeper.tStopRefresh)
-    
     # ------Prepare to start Routine "trial"-------
     continueRoutine = True
     # update component parameters for each repeat
+    # if using numbers on top of targets
+    if USE_NUMBERS:
+        # randomly assign numbers to each text instance
+        rand_number_ls = [x for x in range(1, NUM_TARGETS+1)]
+        shuffle(rand_number_ls)
+        for target_number in target_numbers:
+            target_number.text = rand_number_ls.pop()
+    
     # fetch order in which targets should light up at beginning
     # of this trial
     light_order = trial_orders[trial_counter]
@@ -629,18 +625,26 @@ for thisTrial in trials:
     # targets lighting up during demonstration phase
     inter_light_countdown = 0
     
-    # set the initial target that should light up and switch
-    # it on (make it light up)
-    light_target = light_targets[light_counter]
-    light_target.switch_on(DEMO_LIGHT_DUR)
+    # reset countdown timer for counting down time inbetween
+    # demonstration/response phase
+    phase_switch_countdown = 0
     
     # reset booleans indicating whether which phase of
     # the trial that is currently running
     demo_phase = True
     response_phase = False
     
+    # reset targets
+    for target in targets:
+        target.rest_color = TARGET_NEUTRAL_COL
+        target.fillColor = TARGET_NEUTRAL_COL
+        target.lineColor = TARGET_NEUTRAL_COL
+    
     # reset counter for registering number of clicks on targets
     click_counter = 0
+    
+    # reset counter for countdown until demonstration starts
+    pre_phase_countdown = PRE_PHASE_DURATION 
     
     # reset list of times when valid (on target) click responses 
     # occur
@@ -652,6 +656,8 @@ for thisTrial in trials:
     # fetch the routine start time
     trial_start_time = globalClock.getTime()
     
+    # reset the trial phase variable
+    trial_phase = PRE_PHASE
     # setup some python lists for storing info about the mouse_trial
     gotValidClick = False  # until a click is received
     # keep track of which components have finished
@@ -677,41 +683,59 @@ for thisTrial in trials:
         tThisFlipGlobal = win.getFutureFlipTime(clock=None)
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
         # update/draw components on each frame
+        # if in pre-demonstration phase
+        if trial_phase == PRE_PHASE:
+            pre_phase_countdown -= 1
+            # comparing to -1 here since the demonstration phase
+            # should only start on the flip **after** the last pre phase
+            # flip
+            if pre_phase_countdown <= -1:
+                trial_phase = DEMO_PHASE
+                # set the initial target that should light up and switch
+                # it on (make it light up)
+                light_target = light_targets[light_counter]
+                light_target.switch_on(DEMO_LIGHT_DUR)
+        
         # if in the demonstration phase
-        if demo_phase:
+        if trial_phase == DEMO_PHASE:
             # decrement the countdown timer which keeps track of
             # number of flips until active target should light up
             inter_light_countdown -= 1
             # attempt to turn off the active target
             switched_off = light_target.switch_off()
             # if the active target was successfully switched off
-            if  switched_off:
+            if switched_off:
                 light_counter += 1
                 # if there are more targets to light up
                 if light_counter < seq_len:
                     # proceed to the next target to light up and start the
-                    # countdown timer until the target should light up
+                    # countdown timer for when the target should light up
                     inter_light_countdown = DEMO_INTER_DUR
                     light_target = light_targets[light_counter]
-                # if the whole sequence is done
-                elif light_counter > seq_len:
-                    demo_phase = False
             # if it's time to switch on the active target
             if inter_light_countdown <= 0:
                 light_target.switch_on(DEMO_LIGHT_DUR)
+                inter_light_countdown = 9999
+            # if the whole sequence is done
+            if light_counter >= seq_len and not light_target.is_lit:
+                trial_phase = DEMO_TO_RESP_PHASE
+                # add one to the inter phase countdown duration
+                # to avoid this very flip decrementing the countdown
+                phase_countdown = INTER_PHASE_DUR + 1
         
-        # if the lighting phase is finished and response phase
-        # isn't started yet, start the response phase
-        if not demo_phase and not response_phase:
-            for target in targets:
-                target.rest_color = TARGET_AWAIT_COL
-                target.fillColor = TARGET_AWAIT_COL
-                target.lineColor = TARGET_AWAIT_COL
-            response_phase = True
-            rphase_start_time = trialClock.getTime()
+        # if in phase inbetween demonstration/response phase
+        if trial_phase == DEMO_TO_RESP_PHASE:
+            phase_countdown -= 1
+            if phase_switch_countdown <= 0:
+                for target in targets:
+                    target.rest_color = TARGET_AWAIT_COL
+                    target.fillColor = TARGET_AWAIT_COL
+                    target.lineColor = TARGET_AWAIT_COL
+                trial_phase = RESPONSE_PHASE
+                rphase_start_time = trialClock.getTime()
         
-        # if in the response phase
-        if response_phase:
+        # if in the response or end phase
+        if trial_phase in (RESPONSE_PHASE, END_PHASE):
             # try to switch off each of the targets (so that
             # clicked targets are switched off properly)
             for target in targets:
@@ -722,7 +746,7 @@ for thisTrial in trials:
         if buttons != prevButtonState:  # button state changed?
             prevButtonState = buttons
             # if currently in response phase and a new click was made 
-            if response_phase and sum(buttons) > 0:  
+            if trial_phase == RESPONSE_PHASE and sum(buttons) > 0:  
                 # loop over the targets
                 for target in targets:
                     # if mouse was inside of target
@@ -736,13 +760,28 @@ for thisTrial in trials:
                         response_time = trialClock.getTime() - rphase_start_time
                         response_times.append(response_time)
         
-        # if all responses have been collected, end the trial
-        if click_counter >= seq_len:
-            continueRoutine = False
+        # if all responses have been collected, start the end phase,
+        # which lasts until the last target has finished blinking
+        if click_counter >= seq_len and trial_phase == RESPONSE_PHASE:
+            trial_phase = END_PHASE
+        
+        if trial_phase == END_PHASE:
+            all_switched_off = True
+            # check if any of the targets are still flashing
+            for target in targets:
+                if target.is_lit:
+                    all_switched_off = False
+            if all_switched_off:
+                continueRoutine = False
         
         # draw all of the targets
         for target in targets:
             target.draw()
+        
+        # if using numbers on top of targets
+        if USE_NUMBERS:
+            for target_number in target_numbers:
+                target_number.draw()
         
         
         # check for quit (typically the Esc key)
@@ -766,12 +805,36 @@ for thisTrial in trials:
     for thisComponent in trialComponents:
         if hasattr(thisComponent, "setAutoDraw"):
             thisComponent.setAutoDraw(False)
-    ## save trial data
+    # check if participant's response was correct
+    response_correct = light_order == click_order
+    
+    # if response was correct, reset fail counter.
+    # otherwise, increment it
+    if response_correct:
+        fail_streak_counter = 0
+    else:
+        fail_streak_counter += 1
+    # save trial data
     trials.addData('response_times', response_times)
     trials.addData('trial_start_time', trial_start_time)
+    trials.addData('correct_order', light_order)
     trials.addData('click_order', click_order)
+    trials.addData('response_correct', response_correct)
+    
     # increment trial counter
     trial_counter += 1
+    
+    # if this was the last trial of a certain difficulty level
+    level_end = (trial_counter % NUM_TRIALS) == 0
+    if level_end:
+        # if the participant failed all of the level's
+        # trials, jump to end screen.
+        failed_all = fail_streak_counter == NUM_TRIALS
+        if failed_all:
+            trials.finished = True
+        # reset the fail counter in preparation for next level
+        fail_streak_counter = 0
+    
     # store data for trials (TrialHandler)
     # the Routine "trial" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset()
