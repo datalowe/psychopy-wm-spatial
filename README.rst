@@ -1,6 +1,8 @@
 Psychopy Spatial Working Memory Test
 =========================================
 
+![](wm_spatial_example.gif)
+
 This is a `Psychopy <https://psychopy.org/>`_ project consisting of a spatial working memory task. 
 
 In each trial of the experiment, the participant is shown a sequence of squares lighting up. The participant is then to click the squares in the same sequence that they lit up. The sequences increases in length from 2 to 9 squares, with 3 trials for each difficulty level. If the participant fails all trials of a difficulty level, the experiment ends straight away in order to prevent participant frustration.
