@@ -1,7 +1,9 @@
 Psychopy Spatial Working Memory Test
 =========================================
 
-![](wm_spatial_example.gif)
+.. image:: wm_spatial_example.gif
+  :width: 400
+  :alt: An example of the experiment running. Target squares light up, and a mouse cursor then clicks the targets in the same order.
 
 This is a `Psychopy <https://psychopy.org/>`_ project consisting of a spatial working memory task. 
 
