@@ -14,9 +14,14 @@ Placement of targets is randomly generated in a way that prevents overlapping ta
 Modifying the experiment
 -----------------------------------------
 
-Most experiment specifications, e. g. number of trials/difficulty level, min/max difficulty level, square size et c, are done in a code snippet linked to the first routine (in the PsychoPy Builder interface), meaning that you can easily change them. This includes whether randomly arranged numbers should appear on top of the targets. All instruction messages (currently in Swedish) are also defined in this code snippet, which simplifies translation. 
+Most experiment specifications, e. g. number of trials/difficulty level, min/max difficulty level, square size et c, are done in a code snippet linked to the first routine (in the PsychoPy Builder interface), meaning that you can easily change them. This includes whether randomly arranged numbers should appear on top of the targets. All instruction messages (in American English by default) are also defined in this code snippet, which simplifies translation. 
 
-If you don't want target 'light-up sequences', coordinates and numbering to be randomly generated, you can set the experiment to use the same configurations for every run. This is useful if you want each participant to go through exactly the same experiment, if that's something you want. For instructions on how to do this, open up the scripts in the folder 'specifications_generation' with a text editor and read the documentation at the top of each file. 
+If you don't want target 'light-up sequences', coordinates and numbering to be randomly generated, you can set the experiment to use the same configurations for every run. This is useful if you want each participant to go through exactly the same experiment. For instructions on how to do this, open up the scripts in the folder 'specifications_generation' with a text editor and read the documentation at the top of each file. 
+
+Translating the experiment
+-----------------------------------------
+For instructions specifically about translating the experiment, read the 'translations_instructions.txt' document in the 'translations' directory.
+
 
 Experiment data output
 -----------------------------------------
