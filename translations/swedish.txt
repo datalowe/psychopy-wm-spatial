@@ -1,0 +1,64 @@
+# experiment instructions, first instructions screen
+# "In this test you will be shown squares.\nThe squares will
+# light up in a particular order. You are to memorize the
+# order in which they light up. Once they
+# have finished lighting up, you are to click the squares
+# in the same order.\n\n
+# Use the left mouse button to click the squares."
+INSTRUCTIONS_TXT_1 = (
+    "I det här testet kommer du att visas rutor.\n\n" 
+    "Rutorna kommer att lysa upp i en viss ordning."
+    "Du ska memorisera i vilken ordning som "
+    "de lyser upp. När de lyst klart ska du klicka "
+    "på rutorna i samma ordning.\n\n"
+    "Använd vänster musknapp för att klicka på rutorna."
+)
+
+# first instructions screen 'continue' message
+# "Click here to see an example"
+INSTRUCTIONS_CONTINUE_TXT = (
+    "Klicka här för att se ett exempel"
+)
+
+# placement of instructions screens' 'continue' messages,
+# (x, y) coordinates in degrees
+INSTRUCTIONS_CONTINUE_TXT_PLACEMENT = (0, -6)
+
+# practice trial instructions, shown after light-up
+# sequence has been demonstrated
+# "Click the boxes in the order that they lit up"
+PRACTICE_TXT = (
+    "Tryck på fyrkanterna i ordningen som de lyste upp"
+)
+
+# placement of practice trial instructions,
+# (x, y) coordinates in degrees
+# (the default is to place the text just below the
+# target area)
+PRACTICE_TXT_PLACEMENT = (
+    0, -(AREA_HEIGHT_DEG/2 + TXT_SIZE_M*3)
+)
+
+# experiment instructions, second instructions screen
+# "Throughout the experiment the number of boxes that 
+# light up will increase. Answer as correctly as possible.\n\n
+# The test takes about 5-15 minutes. You will be shown a message 
+# when you are finished."
+INSTRUCTIONS_TXT_2 = (
+    "Under testet kommer antalet fyrkanter som lyser upp att "
+    "bli fler och fler. Svara så korrekt som möjligt.\n\n"
+    "Testet tar cirka 5-15 minuter att genomföra. "
+    "Du kommer att visas ett meddelande när du är klar."
+)
+
+# second instructions screen 'continue'/'start experiment' message
+# "Click here to start the experiment"
+INSTRUCTIONS_START_TXT = (
+    "Klicka här för att starta experimentet"
+)
+
+# end screen message
+# "You've finished the experiment. Thank you for your participation!"
+END_TXT = (
+    "Nu är du klar. Tack!"
+)

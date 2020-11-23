@@ -1,0 +1,66 @@
+# experiment instructions, first instructions screen
+# "In this test you will be shown squares.\nThe squares will
+# light up in a particular order. You are to memorize the
+# order in which they light up. Once they
+# have finished lighting up, you are to click the squares
+# in the same order.\n\n
+# Use the left mouse button to click the squares."
+INSTRUCTIONS_TXT_1 = (
+    "In this test you will be shown squares.\n\n" 
+    "The squares will light up in a particular order. "
+    "You are to memorize the order in which they "
+    "light up. Once they have finished lighting up "
+    "you are to click the squares in the same order.\n\n"
+    "Use the left mouse button to click the squares."
+)
+
+# first instructions screen 'continue' message
+# "Click here to see an example"
+INSTRUCTIONS_CONTINUE_TXT = (
+    "Click here to see an example"
+)
+
+# placement of instructions screens' 'continue' messages,
+# (x, y) coordinates in degrees
+INSTRUCTIONS_CONTINUE_TXT_PLACEMENT = (0, -6)
+
+# practice trial instructions, shown after light-up
+# sequence has been demonstrated
+# "Click the boxes in the order that they lit up"
+PRACTICE_TXT = (
+    "Click the boxes in the order that they lit up"
+)
+
+# placement of practice trial instructions,
+# (x, y) coordinates in degrees
+# (the default is to place the text just below the
+# target area)
+PRACTICE_TXT_PLACEMENT = (
+    0, -(AREA_HEIGHT_DEG/2 + TXT_SIZE_M*3)
+)
+
+# experiment instructions, second instructions screen
+# "Throughout the experiment the number of boxes that 
+# light up will increase. Answer as correctly as possible.\n\n
+# The test takes about 5-15 minutes. You will be shown a message 
+# when you are finished."
+INSTRUCTIONS_TXT_2 = (
+    "Throughout the experiment the number of boxes that "
+    "light up will increase. Answer as correctly as possible.\n\n"
+    "The test takes about 5-15 minutes. You will be "
+    "shown a message when you are finished."
+)
+
+# second instructions screen 'continue'/'start experiment' message
+# "Click here to start the experiment"
+INSTRUCTIONS_START_TXT = (
+    "Click here to start the experiment"
+)
+
+# end screen message
+# "You've finished the experiment.\n\n
+# Thank you for your participation!"
+END_TXT = (
+    "You've finished the experiment.\n\n"
+    "Thank you for your participation!"
+)
