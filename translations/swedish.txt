@@ -6,12 +6,12 @@
 # in the same order.\n\n
 # Use the left mouse button to click the squares."
 INSTRUCTIONS_TXT_1 = (
-    "I det här testet kommer du att visas rutor.\n\n" 
-    "Rutorna kommer att lysa upp i en viss ordning."
+    "I det här testet kommer du att visas fyrkanter.\n\n" 
+    "fyrkanterna kommer att lysa upp i en viss ordning. "
     "Du ska memorisera i vilken ordning som "
     "de lyser upp. När de lyst klart ska du klicka "
-    "på rutorna i samma ordning.\n\n"
-    "Använd vänster musknapp för att klicka på rutorna."
+    "på fyrkanterna i samma ordning.\n\n"
+    "Använd vänster musknapp för att klicka på fyrkanterna."
 )
 
 # first instructions screen 'continue' message
