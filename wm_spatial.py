@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2020.2.5),
-    on Tue Nov 17 09:04:51 2020
+    on Mon Nov 23 09:58:43 2020
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -170,29 +170,74 @@ TXT_SIZE_L = 2
 TXT_SIZE_M = 0.8
 TXT_SIZE_S = 0.6
 
-# experiment instructions
-# "In this test you will be shown squares. The squares will
+## EXPERIMENT MESSAGES ##
+
+# experiment instructions, first instructions screen
+# "In this test you will be shown squares.\nThe squares will
 # light up in a particular order. You are to memorize the
-# order in which the squares light up. Once the squares
+# order in which they light up. Once they
 # have finished lighting up, you are to click the squares
 # in the same order.\n\n
 # Use the left mouse button to click the squares."
-INSTRUCTIONS_TXT = (
-    "I det här testet kommer du att visas rutor. " 
-    "Rutorna kommer att lysa upp i en viss ordning."
-    "Du ska memorisera i vilken ordning som "
-    "rutorna lyser upp. När rutorna lyst klart ska du klicka "
-    "på rutorna i samma ordning.\n\n"
-    "Använd vänster musknapp för att klicka på rutorna."
+INSTRUCTIONS_TXT_1 = (
+    "In this test you will be shown squares.\n" 
+    "The squares will light up in a particular order. "
+    "DYou are to memorize the order in which they "
+    "light up. Once they have finished lighting up "
+    "you are to click the squares in the same order.\n\n"
+    "Use the left mouse button to click the squares."
 )
 
-# instructions screen 'continue' message
+# first instructions screen 'continue' message
 # "Click here to see an example"
 INSTRUCTIONS_CONTINUE_TXT = (
-    "Tryck här för att se ett exempel"
+    "Click here to see an example"
 )
 
-#    "Testet tar ca 3 minuter att genomföra."
+# placement of instructions screens' 'continue' messages,
+# (x, y) coordinates in degrees
+INSTRUCTIONS_CONTINUE_TXT_PLACEMENT = (0, -6)
+
+# practice trial instructions, shown after light-up
+# sequence has been demonstrated
+# "Click the boxes in the order that they lit up"
+PRACTICE_TXT = (
+    "Click the boxes in the order that they lit up"
+)
+
+# placement of practice trial instructions,
+# (x, y) coordinates in degrees
+# (the default is to place the text just below the
+# target area)
+PRACTICE_TXT_PLACEMENT = (
+    0, -(AREA_HEIGHT_DEG/2 + TXT_SIZE_M*3)
+)
+
+# experiment instructions, second instructions screen
+# "Throughout the experiment the number of boxes that 
+# light up will increase. Answer as correctly as possible.\n\n
+# The test takes about 5-15 minutes. You will be shown a message 
+# when you are finished."
+INSTRUCTIONS_TXT_2 = (
+    "Throughout the experiment the number of boxes that "
+    "light up will increase. Answer as correctly as possible.\n\n"
+    "The test takes about 5-15 minutes. You will be "
+    "shown a message when you are finished."
+)
+
+# second instructions screen 'continue'/'start experiment' message
+# "Click here to start the experiment"
+INSTRUCTIONS_START_TXT = (
+    "Click here to start the experiment"
+)
+
+# end screen message
+# "You've finished the experiment. Thank you for your participation!"
+END_TXT = (
+    "You've finished the experiment. Thank you for your participation!"
+)
+
+## END EXPERIMENT MESSAGES ##
 
 ### END SET EXPERIMENT CONSTANTS ###
 # in order to subclass the Rect class (in 'Begin Experiment') 
@@ -271,22 +316,52 @@ else:
 # create a default keyboard (e.g. to check for escape)
 defaultKeyboard = keyboard.Keyboard()
 
-# Initialize components for Routine "instructions"
-instructionsClock = core.Clock()
-text_instructions = visual.TextStim(win=win, name='text_instructions',
-    text=INSTRUCTIONS_TXT,
+# Initialize components for Routine "instructions_part1"
+instructions_part1Clock = core.Clock()
+text_instructions_1 = visual.TextStim(win=win, name='text_instructions_1',
+    text=INSTRUCTIONS_TXT_1,
     font='Arial',
     units='deg', pos=(0, 0), height=TXT_SIZE_M, wrapWidth=25, ori=0, 
     color='white', colorSpace='rgb', opacity=1, 
     languageStyle='LTR',
     depth=0.0);
-mouse_instructions = event.Mouse(win=win)
+mouse_instructions_1 = event.Mouse(win=win)
 x, y = [None, None]
-mouse_instructions.mouseClock = core.Clock()
-text_go = visual.TextStim(win=win, name='text_go',
+mouse_instructions_1.mouseClock = core.Clock()
+text_continue = visual.TextStim(win=win, name='text_continue',
     text=INSTRUCTIONS_CONTINUE_TXT,
     font='Arial',
-    units='deg', pos=(0, -6), height=TXT_SIZE_S, wrapWidth=25, ori=0, 
+    units='deg', pos=INSTRUCTIONS_CONTINUE_TXT_PLACEMENT, height=TXT_SIZE_S, wrapWidth=25, ori=0, 
+    color='white', colorSpace='rgb', opacity=1, 
+    languageStyle='LTR',
+    depth=-2.0);
+
+# Initialize components for Routine "demo_practice"
+demo_practiceClock = core.Clock()
+text_practice = visual.TextStim(win=win, name='text_practice',
+    text=PRACTICE_TXT,
+    font='Arial',
+    units='deg', pos=PRACTICE_TXT_PLACEMENT, height=TXT_SIZE_M, wrapWidth=20, ori=0, 
+    color='white', colorSpace='rgb', opacity=1, 
+    languageStyle='LTR',
+    depth=-1.0);
+
+# Initialize components for Routine "instructions_part2"
+instructions_part2Clock = core.Clock()
+text_instructions_2 = visual.TextStim(win=win, name='text_instructions_2',
+    text=INSTRUCTIONS_TXT_2,
+    font='Arial',
+    units='deg', pos=(0, 0), height=TXT_SIZE_M, wrapWidth=25, ori=0, 
+    color='white', colorSpace='rgb', opacity=1, 
+    languageStyle='LTR',
+    depth=0.0);
+mouse_instructions_2 = event.Mouse(win=win)
+x, y = [None, None]
+mouse_instructions_2.mouseClock = core.Clock()
+text_start = visual.TextStim(win=win, name='text_start',
+    text=INSTRUCTIONS_START_TXT,
+    font='Arial',
+    units='deg', pos=INSTRUCTIONS_CONTINUE_TXT_PLACEMENT, height=TXT_SIZE_S, wrapWidth=25, ori=0, 
     color='white', colorSpace='rgb', opacity=1, 
     languageStyle='LTR',
     depth=-2.0);
@@ -562,7 +637,7 @@ mouse_trial.mouseClock = core.Clock()
 # Initialize components for Routine "end_routine"
 end_routineClock = core.Clock()
 text_end = visual.TextStim(win=win, name='text_end',
-    text='Nu är du klar. Tack!',
+    text=END_TXT,
     font='Arial',
     units='deg', pos=(0, 0), height=TXT_SIZE_L, wrapWidth=25, ori=0, 
     color='white', colorSpace='rgb', opacity=1, 
@@ -573,15 +648,15 @@ text_end = visual.TextStim(win=win, name='text_end',
 globalClock = core.Clock()  # to track the time since experiment started
 routineTimer = core.CountdownTimer()  # to track time remaining of each (non-slip) routine 
 
-# ------Prepare to start Routine "instructions"-------
+# ------Prepare to start Routine "instructions_part1"-------
 continueRoutine = True
 # update component parameters for each repeat
-# setup some python lists for storing info about the mouse_instructions
-mouse_instructions.clicked_name = []
+# setup some python lists for storing info about the mouse_instructions_1
+mouse_instructions_1.clicked_name = []
 gotValidClick = False  # until a click is received
 # keep track of which components have finished
-instructionsComponents = [text_instructions, mouse_instructions, text_go]
-for thisComponent in instructionsComponents:
+instructions_part1Components = [text_instructions_1, mouse_instructions_1, text_continue]
+for thisComponent in instructions_part1Components:
     thisComponent.tStart = None
     thisComponent.tStop = None
     thisComponent.tStartRefresh = None
@@ -591,58 +666,58 @@ for thisComponent in instructionsComponents:
 # reset timers
 t = 0
 _timeToFirstFrame = win.getFutureFlipTime(clock="now")
-instructionsClock.reset(-_timeToFirstFrame)  # t0 is time of first possible flip
+instructions_part1Clock.reset(-_timeToFirstFrame)  # t0 is time of first possible flip
 frameN = -1
 
-# -------Run Routine "instructions"-------
+# -------Run Routine "instructions_part1"-------
 while continueRoutine:
     # get current time
-    t = instructionsClock.getTime()
-    tThisFlip = win.getFutureFlipTime(clock=instructionsClock)
+    t = instructions_part1Clock.getTime()
+    tThisFlip = win.getFutureFlipTime(clock=instructions_part1Clock)
     tThisFlipGlobal = win.getFutureFlipTime(clock=None)
     frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
     # update/draw components on each frame
     
-    # *text_instructions* updates
-    if text_instructions.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+    # *text_instructions_1* updates
+    if text_instructions_1.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
         # keep track of start time/frame for later
-        text_instructions.frameNStart = frameN  # exact frame index
-        text_instructions.tStart = t  # local t and not account for scr refresh
-        text_instructions.tStartRefresh = tThisFlipGlobal  # on global time
-        win.timeOnFlip(text_instructions, 'tStartRefresh')  # time at next scr refresh
-        text_instructions.setAutoDraw(True)
-    # *mouse_instructions* updates
-    if mouse_instructions.status == NOT_STARTED and t >= 0.5-frameTolerance:
+        text_instructions_1.frameNStart = frameN  # exact frame index
+        text_instructions_1.tStart = t  # local t and not account for scr refresh
+        text_instructions_1.tStartRefresh = tThisFlipGlobal  # on global time
+        win.timeOnFlip(text_instructions_1, 'tStartRefresh')  # time at next scr refresh
+        text_instructions_1.setAutoDraw(True)
+    # *mouse_instructions_1* updates
+    if mouse_instructions_1.status == NOT_STARTED and t >= 0.5-frameTolerance:
         # keep track of start time/frame for later
-        mouse_instructions.frameNStart = frameN  # exact frame index
-        mouse_instructions.tStart = t  # local t and not account for scr refresh
-        mouse_instructions.tStartRefresh = tThisFlipGlobal  # on global time
-        win.timeOnFlip(mouse_instructions, 'tStartRefresh')  # time at next scr refresh
-        mouse_instructions.status = STARTED
-        mouse_instructions.mouseClock.reset()
-        prevButtonState = mouse_instructions.getPressed()  # if button is down already this ISN'T a new click
-    if mouse_instructions.status == STARTED:  # only update if started and not finished!
-        buttons = mouse_instructions.getPressed()
+        mouse_instructions_1.frameNStart = frameN  # exact frame index
+        mouse_instructions_1.tStart = t  # local t and not account for scr refresh
+        mouse_instructions_1.tStartRefresh = tThisFlipGlobal  # on global time
+        win.timeOnFlip(mouse_instructions_1, 'tStartRefresh')  # time at next scr refresh
+        mouse_instructions_1.status = STARTED
+        mouse_instructions_1.mouseClock.reset()
+        prevButtonState = mouse_instructions_1.getPressed()  # if button is down already this ISN'T a new click
+    if mouse_instructions_1.status == STARTED:  # only update if started and not finished!
+        buttons = mouse_instructions_1.getPressed()
         if buttons != prevButtonState:  # button state changed?
             prevButtonState = buttons
             if sum(buttons) > 0:  # state changed to a new click
                 # check if the mouse was inside our 'clickable' objects
                 gotValidClick = False
-                for obj in [text_go]:
-                    if obj.contains(mouse_instructions):
+                for obj in [text_continue]:
+                    if obj.contains(mouse_instructions_1):
                         gotValidClick = True
-                        mouse_instructions.clicked_name.append(obj.name)
+                        mouse_instructions_1.clicked_name.append(obj.name)
                 if gotValidClick:  # abort routine on response
                     continueRoutine = False
     
-    # *text_go* updates
-    if text_go.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+    # *text_continue* updates
+    if text_continue.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
         # keep track of start time/frame for later
-        text_go.frameNStart = frameN  # exact frame index
-        text_go.tStart = t  # local t and not account for scr refresh
-        text_go.tStartRefresh = tThisFlipGlobal  # on global time
-        win.timeOnFlip(text_go, 'tStartRefresh')  # time at next scr refresh
-        text_go.setAutoDraw(True)
+        text_continue.frameNStart = frameN  # exact frame index
+        text_continue.tStart = t  # local t and not account for scr refresh
+        text_continue.tStartRefresh = tThisFlipGlobal  # on global time
+        win.timeOnFlip(text_continue, 'tStartRefresh')  # time at next scr refresh
+        text_continue.setAutoDraw(True)
     
     # check for quit (typically the Esc key)
     if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
@@ -652,7 +727,7 @@ while continueRoutine:
     if not continueRoutine:  # a component has requested a forced-end of Routine
         break
     continueRoutine = False  # will revert to True if at least one component still running
-    for thisComponent in instructionsComponents:
+    for thisComponent in instructions_part1Components:
         if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
             continueRoutine = True
             break  # at least one component has not yet finished
@@ -661,13 +736,365 @@ while continueRoutine:
     if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
         win.flip()
 
-# -------Ending Routine "instructions"-------
-for thisComponent in instructionsComponents:
+# -------Ending Routine "instructions_part1"-------
+for thisComponent in instructions_part1Components:
     if hasattr(thisComponent, "setAutoDraw"):
         thisComponent.setAutoDraw(False)
 # store data for thisExp (ExperimentHandler)
 thisExp.nextEntry()
-# the Routine "instructions" was not non-slip safe, so reset the non-slip timer
+# the Routine "instructions_part1" was not non-slip safe, so reset the non-slip timer
+routineTimer.reset()
+
+# set up handler to look after randomisation of conditions etc
+practice_loop = data.TrialHandler(nReps=9999, method='random', 
+    extraInfo=expInfo, originPath=-1,
+    trialList=[None],
+    seed=None, name='practice_loop')
+thisExp.addLoop(practice_loop)  # add the loop to the experiment
+thisPractice_loop = practice_loop.trialList[0]  # so we can initialise stimuli with some values
+# abbreviate parameter names if possible (e.g. rgb = thisPractice_loop.rgb)
+if thisPractice_loop != None:
+    for paramName in thisPractice_loop:
+        exec('{} = thisPractice_loop[paramName]'.format(paramName))
+
+for thisPractice_loop in practice_loop:
+    currentLoop = practice_loop
+    # abbreviate parameter names if possible (e.g. rgb = thisPractice_loop.rgb)
+    if thisPractice_loop != None:
+        for paramName in thisPractice_loop:
+            exec('{} = thisPractice_loop[paramName]'.format(paramName))
+    
+    # ------Prepare to start Routine "demo_practice"-------
+    continueRoutine = True
+    # update component parameters for each repeat
+    # if using numbers on top of targets
+    if USE_NUMBERS:
+        # set number positions for
+        # practice, starting count from 1
+        for i, target_number in enumerate(target_numbers):
+            target_number.text = str(i + 1)
+    
+    # set order in which two targets should light up 
+    # for demonstration (middle-ish target, then first
+    # target)
+    light_order = [NUM_TARGETS // 2, 0]
+    
+    # form list of targets, arranged in order in which they should
+    # light up
+    light_targets = [targets[index] for index in light_order]
+    
+    # store the sequence length
+    seq_len = len(light_targets)
+    
+    # reset counter used for looping over order in which
+    # targets should light up
+    light_counter = 0
+    
+    # reset countdown timer for counting down time inbetween
+    # targets lighting up during demonstration phase
+    inter_light_countdown = 0
+    
+    # reset countdown timer for counting down time inbetween
+    # demonstration/response phase
+    phase_switch_countdown = 0
+    
+    # reset booleans indicating which phase of
+    # the trial that is currently running
+    demo_phase = True
+    response_phase = False
+    
+    # reset targets
+    for target in targets:
+        target.rest_color = TARGET_NEUTRAL_COL
+        target.fillColor = TARGET_NEUTRAL_COL
+        target.lineColor = TARGET_NEUTRAL_COL
+    
+    # reset counter for registering number of clicks on targets
+    click_counter = 0
+    
+    # reset counter for countdown until demonstration starts
+    pre_phase_countdown = PRE_PHASE_DURATION 
+    
+    # reset list of times when valid (on target) click responses 
+    # occur
+    response_times = []
+    
+    # reset list of order in which the participant makes clicks
+    click_order = []
+    
+    # fetch the routine start time
+    trial_start_time = globalClock.getTime()
+    
+    # reset the trial phase variable
+    trial_phase = PRE_PHASE
+    # keep track of which components have finished
+    demo_practiceComponents = [text_practice]
+    for thisComponent in demo_practiceComponents:
+        thisComponent.tStart = None
+        thisComponent.tStop = None
+        thisComponent.tStartRefresh = None
+        thisComponent.tStopRefresh = None
+        if hasattr(thisComponent, 'status'):
+            thisComponent.status = NOT_STARTED
+    # reset timers
+    t = 0
+    _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+    demo_practiceClock.reset(-_timeToFirstFrame)  # t0 is time of first possible flip
+    frameN = -1
+    
+    # -------Run Routine "demo_practice"-------
+    while continueRoutine:
+        # get current time
+        t = demo_practiceClock.getTime()
+        tThisFlip = win.getFutureFlipTime(clock=demo_practiceClock)
+        tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        # if in pre-demonstration phase
+        if trial_phase == PRE_PHASE:
+            pre_phase_countdown -= 1
+            # comparing to -1 here since the demonstration phase
+            # should only start on the flip **after** the last pre phase
+            # flip
+            if pre_phase_countdown <= -1:
+                trial_phase = DEMO_PHASE
+                # set the initial target that should light up and switch
+                # it on (make it light up)
+                light_target = light_targets[light_counter]
+                light_target.switch_on(DEMO_LIGHT_DUR)
+        
+        # if in the demonstration phase
+        if trial_phase == DEMO_PHASE:
+            # decrement the countdown timer which keeps track of
+            # number of flips until active target should light up
+            inter_light_countdown -= 1
+            # attempt to turn off the active target
+            switched_off = light_target.switch_off()
+            # if the active target was successfully switched off
+            if switched_off:
+                light_counter += 1
+                # if there are more targets to light up
+                if light_counter < seq_len:
+                    # proceed to the next target to light up and start the
+                    # countdown timer for when the target should light up
+                    inter_light_countdown = DEMO_INTER_DUR
+                    light_target = light_targets[light_counter]
+            # if it's time to switch on the active target
+            if inter_light_countdown <= 0:
+                light_target.switch_on(DEMO_LIGHT_DUR)
+                inter_light_countdown = 9999
+            # if the whole sequence is done
+            if light_counter >= seq_len and not light_target.is_lit:
+                trial_phase = DEMO_TO_RESP_PHASE
+                # add one to the inter phase countdown duration
+                # to avoid this very flip decrementing the countdown
+                phase_countdown = INTER_PHASE_DUR + 1
+        
+        # if in phase inbetween demonstration/response phase
+        if trial_phase == DEMO_TO_RESP_PHASE:
+            phase_countdown -= 1
+            if phase_switch_countdown <= 0:
+                for target in targets:
+                    target.rest_color = TARGET_AWAIT_COL
+                    target.fillColor = TARGET_AWAIT_COL
+                    target.lineColor = TARGET_AWAIT_COL
+                trial_phase = RESPONSE_PHASE
+                rphase_start_time = trialClock.getTime()
+        
+        # if in the response or end phase
+        if trial_phase in (RESPONSE_PHASE, END_PHASE):
+            # draw the instruction text
+            text_practice.draw()
+            # try to switch off each of the targets (so that
+            # clicked targets are switched off properly)
+            for target in targets:
+                target.switch_off()
+        
+        # check if mouse button has been clicked
+        buttons = mouse_trial.getPressed()
+        if buttons != prevButtonState:  # button state changed?
+            prevButtonState = buttons
+            # if currently in response phase and a new click was made 
+            if trial_phase == RESPONSE_PHASE and sum(buttons) > 0:  
+                # loop over the targets
+                for target in targets:
+                    # if mouse was inside of target
+                    if target.contains(mouse_trial):
+                        # switch on the target, increase counter, register
+                        # which target the participant clicked
+                        target.switch_on(RESP_FLASH_DUR)
+                        click_counter += 1
+                        click_order.append(targets.index(target))
+                        # save the click time
+                        response_time = trialClock.getTime() - rphase_start_time
+                        response_times.append(response_time)
+        
+        # if all responses have been collected, start the end phase,
+        # which lasts until the last target has finished flashing
+        if click_counter >= seq_len and trial_phase == RESPONSE_PHASE:
+            trial_phase = END_PHASE
+        
+        if trial_phase == END_PHASE:
+            all_switched_off = True
+            # check if any of the targets are still flashing
+            for target in targets:
+                if target.is_lit:
+                    all_switched_off = False
+            if all_switched_off:
+                continueRoutine = False
+        
+        # draw all of the targets
+        for target in targets:
+            target.draw()
+        
+        # if using numbers on top of targets
+        if USE_NUMBERS:
+            for target_number in target_numbers:
+                target_number.draw()
+        
+        
+        # *text_practice* updates
+        if text_practice.status == NOT_STARTED and tThisFlip >= 9999-frameTolerance:
+            # keep track of start time/frame for later
+            text_practice.frameNStart = frameN  # exact frame index
+            text_practice.tStart = t  # local t and not account for scr refresh
+            text_practice.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(text_practice, 'tStartRefresh')  # time at next scr refresh
+            text_practice.setAutoDraw(True)
+        
+        # check for quit (typically the Esc key)
+        if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
+            core.quit()
+        
+        # check if all components have finished
+        if not continueRoutine:  # a component has requested a forced-end of Routine
+            break
+        continueRoutine = False  # will revert to True if at least one component still running
+        for thisComponent in demo_practiceComponents:
+            if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+            win.flip()
+    
+    # -------Ending Routine "demo_practice"-------
+    for thisComponent in demo_practiceComponents:
+        if hasattr(thisComponent, "setAutoDraw"):
+            thisComponent.setAutoDraw(False)
+    # check if participant's response was correct
+    response_correct = light_order == click_order
+    
+    # if response was correct, end practice
+    # (otherwise loop the practice until success)
+    if response_correct:
+        practice_loop.finished = True
+    
+    practice_loop.addData('text_practice.started', text_practice.tStartRefresh)
+    practice_loop.addData('text_practice.stopped', text_practice.tStopRefresh)
+    # the Routine "demo_practice" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset()
+    thisExp.nextEntry()
+    
+# completed 9999 repeats of 'practice_loop'
+
+
+# ------Prepare to start Routine "instructions_part2"-------
+continueRoutine = True
+# update component parameters for each repeat
+# setup some python lists for storing info about the mouse_instructions_2
+mouse_instructions_2.clicked_name = []
+gotValidClick = False  # until a click is received
+# keep track of which components have finished
+instructions_part2Components = [text_instructions_2, mouse_instructions_2, text_start]
+for thisComponent in instructions_part2Components:
+    thisComponent.tStart = None
+    thisComponent.tStop = None
+    thisComponent.tStartRefresh = None
+    thisComponent.tStopRefresh = None
+    if hasattr(thisComponent, 'status'):
+        thisComponent.status = NOT_STARTED
+# reset timers
+t = 0
+_timeToFirstFrame = win.getFutureFlipTime(clock="now")
+instructions_part2Clock.reset(-_timeToFirstFrame)  # t0 is time of first possible flip
+frameN = -1
+
+# -------Run Routine "instructions_part2"-------
+while continueRoutine:
+    # get current time
+    t = instructions_part2Clock.getTime()
+    tThisFlip = win.getFutureFlipTime(clock=instructions_part2Clock)
+    tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+    frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+    # update/draw components on each frame
+    
+    # *text_instructions_2* updates
+    if text_instructions_2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+        # keep track of start time/frame for later
+        text_instructions_2.frameNStart = frameN  # exact frame index
+        text_instructions_2.tStart = t  # local t and not account for scr refresh
+        text_instructions_2.tStartRefresh = tThisFlipGlobal  # on global time
+        win.timeOnFlip(text_instructions_2, 'tStartRefresh')  # time at next scr refresh
+        text_instructions_2.setAutoDraw(True)
+    # *mouse_instructions_2* updates
+    if mouse_instructions_2.status == NOT_STARTED and t >= 0.5-frameTolerance:
+        # keep track of start time/frame for later
+        mouse_instructions_2.frameNStart = frameN  # exact frame index
+        mouse_instructions_2.tStart = t  # local t and not account for scr refresh
+        mouse_instructions_2.tStartRefresh = tThisFlipGlobal  # on global time
+        win.timeOnFlip(mouse_instructions_2, 'tStartRefresh')  # time at next scr refresh
+        mouse_instructions_2.status = STARTED
+        mouse_instructions_2.mouseClock.reset()
+        prevButtonState = mouse_instructions_2.getPressed()  # if button is down already this ISN'T a new click
+    if mouse_instructions_2.status == STARTED:  # only update if started and not finished!
+        buttons = mouse_instructions_2.getPressed()
+        if buttons != prevButtonState:  # button state changed?
+            prevButtonState = buttons
+            if sum(buttons) > 0:  # state changed to a new click
+                # check if the mouse was inside our 'clickable' objects
+                gotValidClick = False
+                for obj in [text_start]:
+                    if obj.contains(mouse_instructions_2):
+                        gotValidClick = True
+                        mouse_instructions_2.clicked_name.append(obj.name)
+                if gotValidClick:  # abort routine on response
+                    continueRoutine = False
+    
+    # *text_start* updates
+    if text_start.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+        # keep track of start time/frame for later
+        text_start.frameNStart = frameN  # exact frame index
+        text_start.tStart = t  # local t and not account for scr refresh
+        text_start.tStartRefresh = tThisFlipGlobal  # on global time
+        win.timeOnFlip(text_start, 'tStartRefresh')  # time at next scr refresh
+        text_start.setAutoDraw(True)
+    
+    # check for quit (typically the Esc key)
+    if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
+        core.quit()
+    
+    # check if all components have finished
+    if not continueRoutine:  # a component has requested a forced-end of Routine
+        break
+    continueRoutine = False  # will revert to True if at least one component still running
+    for thisComponent in instructions_part2Components:
+        if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+            continueRoutine = True
+            break  # at least one component has not yet finished
+    
+    # refresh the screen
+    if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+        win.flip()
+
+# -------Ending Routine "instructions_part2"-------
+for thisComponent in instructions_part2Components:
+    if hasattr(thisComponent, "setAutoDraw"):
+        thisComponent.setAutoDraw(False)
+# store data for thisExp (ExperimentHandler)
+thisExp.nextEntry()
+# the Routine "instructions_part2" was not non-slip safe, so reset the non-slip timer
 routineTimer.reset()
 
 # set up handler to look after randomisation of conditions etc
@@ -730,7 +1157,7 @@ for thisTrial in trials:
     # demonstration/response phase
     phase_switch_countdown = 0
     
-    # reset booleans indicating whether which phase of
+    # reset booleans indicating which phase of
     # the trial that is currently running
     demo_phase = True
     response_phase = False
