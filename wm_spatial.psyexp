@@ -22,13 +22,13 @@
     <Param name="Screen" updates="None" val="1" valType="num"/>
     <Param name="Show info dlg" updates="None" val="True" valType="bool"/>
     <Param name="Show mouse" updates="None" val="False" valType="bool"/>
-    <Param name="Units" updates="None" val="height" valType="str"/>
+    <Param name="Units" updates="None" val="deg" valType="str"/>
     <Param name="Use version" updates="None" val="" valType="str"/>
     <Param name="Window size (pixels)" updates="None" val="[1280, 800]" valType="code"/>
     <Param name="blendMode" updates="None" val="avg" valType="str"/>
     <Param name="color" updates="None" val="$[-1,-1,-1]" valType="str"/>
     <Param name="colorSpace" updates="None" val="rgb" valType="str"/>
-    <Param name="expName" updates="None" val="click_baseline" valType="str"/>
+    <Param name="expName" updates="None" val="wmspatial" valType="str"/>
     <Param name="exportHTML" updates="None" val="on Sync" valType="str"/>
     <Param name="logging level" updates="None" val="debug" valType="code"/>
   </Settings>
