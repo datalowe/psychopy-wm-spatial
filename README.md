@@ -19,5 +19,17 @@ For instructions specifically about translating the experiment, read the 'transl
 ## Experiment data output
 For each trial the experiment saves participant response times (saving the time for each click), the correct sequence, what sequence the participant clicked the boxes in, and whether the participant's responses were correct or not. Note that target numbering, as used when saving sequences, has nothing to do with targets' positions or the numbers that randomly appear on targets (if you have enabled these). If you want detailed information about spatial patterns of participants' responses you should activate saving coordinates on every click for the trial's mouse component.
 
+The most relevant output data files are the 'CSV'/'.csv' files, saved to the 'data' directory. The most important columns in these files are as follows:
+* response_times: These are the times at which the participant clicked targets, where times are stored in a comma-separated 'list' within square brackets, e.g. `[1.2335563814267516, 2.2506016893312335]` for a trial where the participant is to click two targets.
+    - In the example here, '1.2335563814267516' would correspond to the time, counting from trial start, at which the participant clicked the first target, and '2.2506016893312335' would be the time at which the second target was clicked (whether correct or not).
+* trial_start_time: Trial start time, counting from experiment start.
+* trial_type: Trial type, saying whether or not targets had digits drawn on top of them or not
+    - Possible values: 'with_digits', 'without_digits'
+* correct_order: The correct order to click targets in. e.g. `[2, 7]` indicates that in order to produce a correct trial response, the participant needed to first click target 2, then target 7.
+    - Note that the 'target numbering' does relate to the digits shown on targets for 'with_digits' trials, but has no particular meaning for 'without_digits' trials.
+* click_order: The actual order that the participant clicked the targets in. e.g. if `correct_order` is `[2, 7]`, and `click_order` is `[2, 8]`, this means that the participant's first click was correct, but the second was incorrect.
+* response_correct: Indicates whether or not participant response was correct.
+    - Possible values: `True` or `False`.
+
 ## (not) Running the experiment online
 When developing this experiment, the only intention was to run it locally, on a lab computer. This means that the code has not been translated to JavaScript for running the experiment online, and wasn't written with this in mind. PsychoPy offers a tool for 'transpiling' (essentially translating from one programming language to another) Python code to JavaScript, but the tool has many flaws, not least since transpiling is hard. The code snippets in this experiment uses much Python-specific functionality which is not transpilation-friendly. Moreover, the code itself is structured on a more general level in a way that doesn't agree with certain assumptions made by PsychoPy's transpiler. If you'd like to run the experiment online, you're probably better off trying to recreate it from scratch, checking along the way to see if PsychoPy is able to transpile your project.
